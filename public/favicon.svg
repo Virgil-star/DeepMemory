@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="House Offer Sprint">
+  <rect width="32" height="32" rx="7" fill="#0e0d0b"/>
+  <path fill="#f3eee6" d="M6.6 16.2h18.8V26.2H6.6z"/>
+  <path fill="#c9a36a" d="M16 5.4 27.2 16.4H4.8Z"/>
+  <rect x="13.6" y="19" width="4.8" height="7.2" fill="#0e0d0b"/>
+</svg>
