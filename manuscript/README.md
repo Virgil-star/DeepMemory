@@ -33,6 +33,7 @@ becomes its author.
 | `book-two-the-instrument.md` | Chapter-by-chapter, 36 chapters |
 | `book-three-the-appeal.md` | Chapter-by-chapter, 34 chapters |
 | `ch01-the-missing-day.md` | Book One, chapter one, written in full |
+| `ch02-forty-three-years.md` | Book One, chapter two, written in full |
 
 ## Reading order
 
