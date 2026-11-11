@@ -105,3 +105,19 @@ test("the Steamworks table lists exactly the achievements the game can send", as
     ACHIEVEMENTS.map((a) => a.id),
   );
 });
+
+test("the Steam localisation file and icons cover every achievement, in order", async () => {
+  const { existsSync, readFileSync } = await import("node:fs");
+  const steam = new URL("../../../desktop/steam/", import.meta.url);
+  const vdf = readFileSync(new URL("achievements_english.vdf", steam), "utf8");
+  const glyphs = JSON.parse(readFileSync(new URL("achievement-icons.json", steam), "utf8"));
+  ACHIEVEMENTS.forEach((a, i) => {
+    assert.ok(vdf.includes(`"NEW_ACHIEVEMENT_1_${i}_NAME"\t"${a.n}"`), `${a.id} name`);
+    assert.ok(vdf.includes(`"NEW_ACHIEVEMENT_1_${i}_DESC"\t"${a.d}"`), `${a.id} description`);
+    assert.ok(glyphs[a.id], `${a.id} has no icon glyph`);
+    for (const suffix of ["", "_locked"]) {
+      assert.ok(existsSync(new URL(`achievement-icons/${a.id}${suffix}.jpg`, steam)), `${a.id}${suffix}.jpg`);
+    }
+  });
+  assert.equal(Object.keys(glyphs).length, ACHIEVEMENTS.length);
+});

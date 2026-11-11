@@ -5,6 +5,7 @@ Everything is derived by cropping, scaling and compositing the three source
 images, so re-running it after replacing them with higher-resolution renders
 regenerates the whole set.
 """
+import zipfile
 from pathlib import Path
 from PIL import Image, ImageChops, ImageDraw, ImageFilter
 
@@ -72,12 +73,15 @@ jobs = {
     "library_header_920x430.jpg": cover(horizon, 920, 430, (0.5, 0.5)),
     "vertical_capsule_748x896.jpg": portrait(748, 896),
     "library_capsule_600x900.jpg": portrait(600, 900),
-    "library_hero_3840x1240.jpg": cover(planet, 3840, 1240, (0.5, 0.35)),
     "page_background_1438x810.jpg": cover(planet, 1438, 810, (0.5, 0.2)).point(lambda v: int(v * 0.55)),
 }
 for name, image in jobs.items():
     image.save(OUT / name, quality=92)
     print(name, image.size)
+
+# Steam asks for the library hero as a PNG, with nothing written on it
+cover(planet, 3840, 1240, (0.5, 0.35)).save(OUT / "library_hero_3840x1240.png", optimize=True)
+print("library_hero_3840x1240.png", (3840, 1240))
 
 # library logo: the lettering in white on a transparent field
 mark = wordmark()
@@ -89,3 +93,23 @@ white.putalpha(mark)
 logo.paste(white, ((1280 - mw) // 2, (720 - mark.height) // 2), white)
 logo.save(OUT / "library_logo_1280x720.png")
 print("library_logo_1280x720.png", logo.size)
+
+# icons: the lit crescent, square, in every form Steam and the desktops ask for
+ICONS = HERE / "icons"
+ICONS.mkdir(exist_ok=True)
+crescent = planet.crop((912, 40, 1472, 600)).resize((1024, 1024), Image.LANCZOS)
+crescent.resize((184, 184), Image.LANCZOS).save(ICONS / "community_icon_184x184.jpg", quality=92)
+crescent.resize((512, 512), Image.LANCZOS).save(ICONS / "shortcut_icon_512x512.png")
+crescent.resize((256, 256), Image.LANCZOS).save(
+    ICONS / "client_icon.ico", sizes=[(16, 16), (24, 24), (32, 32), (48, 48), (64, 64), (128, 128), (256, 256)]
+)
+crescent.resize((16, 16), Image.LANCZOS).convert("RGBA").save(ICONS / "client_image_16x16.tga")
+crescent.save(ICONS / "mac_icon.icns")
+with zipfile.ZipFile(ICONS / "linux_icons.zip", "w", zipfile.ZIP_DEFLATED) as bundle:
+    for size in (16, 24, 32, 48, 64, 96, 128, 256):
+        name = f"icon_{size}x{size}.png"
+        crescent.resize((size, size), Image.LANCZOS).save(ICONS / name)
+        bundle.write(ICONS / name, name)
+        (ICONS / name).unlink()
+for made in sorted(ICONS.iterdir()):
+    print("icons/" + made.name)

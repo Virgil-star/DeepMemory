@@ -1,0 +1,84 @@
+name: Meridian desktop
+
+# Builds the desktop game for Windows and for Linux (which is also the Steam
+# Deck build), plays the first minute of each packaged build on its own
+# operating system, and keeps the folders SteamPipe uploads.
+on:
+  workflow_dispatch:
+  push:
+    tags: ["meridian-v*"]
+    branches: ["claude/meridian-constants-qhth0j"]
+  pull_request:
+    paths:
+      - "desktop/**"
+      - "src/lib/meridian/**"
+      - "src/components/meridian/**"
+      - "src/desktop/**"
+      - "src/assets/meridian/**"
+      - "vite.desktop.config.ts"
+      - "desktop.html"
+      - ".github/workflows/meridian-desktop.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: meridian-desktop-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows
+            os: windows-latest
+            folder: win-unpacked
+          - name: Linux and Steam Deck
+            os: ubuntu-latest
+            folder: linux-unpacked
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install the game's dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Test the rules, the achievements and save storage
+        run: npm run test:meridian
+
+      - name: Bundle the game
+        run: npm run build:desktop
+
+      - name: Install the desktop shell
+        working-directory: desktop
+        run: npm ci --no-audit --no-fund
+
+      - name: Package
+        working-directory: desktop
+        run: npx electron-builder --dir
+
+      - name: Play the packaged build
+        if: runner.os == 'Windows'
+        working-directory: desktop
+        run: node smoke.cjs
+
+      - name: Play the packaged build under a virtual display
+        if: runner.os == 'Linux'
+        working-directory: desktop
+        run: xvfb-run -a node smoke.cjs
+
+      - name: Keep the build
+        uses: actions/upload-artifact@v4
+        with:
+          name: meridian-${{ matrix.folder }}
+          path: desktop/dist/${{ matrix.folder }}
+          if-no-files-found: error
+          retention-days: 30

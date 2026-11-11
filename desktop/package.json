@@ -10,13 +10,16 @@
     "start": "npm run bundle && electron .",
     "test": "node --test storage.test.cjs",
     "pack": "npm run bundle && electron-builder --dir",
-    "dist": "npm run bundle && electron-builder"
+    "dist": "npm run bundle && electron-builder",
+    "smoke": "node smoke.cjs",
+    "smoke:dev": "npm run bundle && node smoke.cjs --dev"
   },
   "dependencies": {
     "steamworks.js": "^0.4.0"
   },
   "devDependencies": {
     "electron": "^45.3.0",
-    "electron-builder": "^26.18.0"
+    "electron-builder": "^26.18.0",
+    "playwright-core": "^1.56.0"
   }
 }
