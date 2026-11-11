@@ -1,0 +1,22 @@
+{
+  "name": "meridian-desktop",
+  "productName": "Meridian",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Meridian: the desktop shell that ships to Steam.",
+  "main": "main.cjs",
+  "scripts": {
+    "bundle": "npm --prefix .. run build:desktop",
+    "start": "npm run bundle && electron .",
+    "test": "node --test storage.test.cjs",
+    "pack": "npm run bundle && electron-builder --dir",
+    "dist": "npm run bundle && electron-builder"
+  },
+  "dependencies": {
+    "steamworks.js": "^0.4.0"
+  },
+  "devDependencies": {
+    "electron": "^45.3.0",
+    "electron-builder": "^26.18.0"
+  }
+}

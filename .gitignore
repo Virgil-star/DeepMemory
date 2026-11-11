@@ -3,3 +3,8 @@ node_modules/
 .github_repo
 .env
 .env.*
+
+# Meridian desktop shell
+desktop/node_modules/
+desktop/app/
+desktop/dist/

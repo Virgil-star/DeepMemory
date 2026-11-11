@@ -32,5 +32,10 @@
   "include": [
     "src",
     "server"
+  ],
+  // Meridian's content file is a plain script shared with other loaders; its
+  // types live beside it in content.d.ts.
+  "exclude": [
+    "src/lib/meridian/content.js"
   ]
 }
