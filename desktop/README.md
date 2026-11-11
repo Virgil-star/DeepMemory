@@ -33,8 +33,8 @@ npm start          # bundles the game, then opens it
 
 ```sh
 npm run pack                    # this machine's platform, into dist/<platform>-unpacked
-npx electron-builder --dir --win    # run on Windows
-npx electron-builder --dir --linux  # run on Linux; this is also the Steam Deck build
+npx electron-builder --dir --win    # Windows; also builds from Linux
+npx electron-builder --dir --linux  # Linux, which is also the Steam Deck build
 ```
 
 ## Tests
@@ -58,9 +58,17 @@ display with `smoke.cjs`:
 - The page has no access to Node; it sees only the bridge above.
 - The Windows folder builds from Linux (`dist/win-unpacked/Meridian.exe`).
 
-`.github/workflows/meridian-desktop.yml` repeats the build and the play-through
-on a Windows machine and a Linux machine and keeps both folders as artifacts.
-Its latest result is on the repository's Actions tab.
+Checked on GitHub's Windows and Linux machines by
+`.github/workflows/meridian-desktop.yml`, which builds each folder on its own
+operating system and runs the same play-through against it:
+
+- The Windows build opens, plays to a first choice, saves, quits, relaunches
+  and resumes. So does the Linux build.
+- The rules, achievement and save-storage tests pass on both.
+
+The folders from that run are kept as artifacts on the repository's Actions
+tab for thirty days. Prefer those for upload: each was built and run on the
+system it is for.
 
 Not checked, because it needs things an automated run does not have:
 

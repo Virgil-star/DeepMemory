@@ -53,8 +53,8 @@ Alternate History, Singleplayer, Atmospheric, Sci-fi
 - Steam Achievements
 - Steam Cloud (Auto-Cloud on the saves folder; see ../README.md)
 - Full controller support
-- Linux / Steam Deck build (packaged and tested), Windows build (configured;
-  build and test it on Windows before listing it)
+- Windows, and Linux / Steam Deck. Both builds are packaged and play-tested by
+  the automated run; neither has been launched from a Steam library yet
 
 ## System requirements (minimum)
 

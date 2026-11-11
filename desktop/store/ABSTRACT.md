@@ -133,7 +133,7 @@ see `../steam/content-survey.md`.
 
 ## Where it stands
 
-The game is complete and plays from title to ending. The Linux build has been
-run and played through as a packaged application. The Windows build compiles
-but has not been run on Windows. Nothing has been tested against a live Steam
-client. See `../README.md` for the full list of what was and was not checked.
+The game is complete and plays from title to ending. The Windows and Linux
+builds have each been built, launched and played through their opening on
+their own operating system by an automated run. Nothing has been tested
+against a live Steam client, on a physical controller, or by ear. See `../README.md` for the full list of what was and was not checked.

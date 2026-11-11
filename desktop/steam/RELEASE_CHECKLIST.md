@@ -123,9 +123,11 @@ npx electron-builder --dir --win      # dist/win-unpacked
 npx electron-builder --dir --linux    # dist/linux-unpacked
 ```
 
-Both can be built on Linux. `.github/workflows/meridian-desktop.yml` builds and
-smoke-tests each on its own operating system and keeps the folders as
-downloadable artifacts.
+Both can be built on Linux. Better, use the folders from the "Meridian desktop"
+run on the repository's Actions tab: `.github/workflows/meridian-desktop.yml`
+builds each on its own operating system, plays its opening, and keeps the
+folders as artifacts. Start a run from the Actions tab, or push a tag such as
+`meridian-v1.0.0`.
 
 Upload:
 

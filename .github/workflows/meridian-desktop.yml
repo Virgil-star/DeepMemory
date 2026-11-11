@@ -3,11 +3,13 @@ name: Meridian desktop
 # Builds the desktop game for Windows and for Linux (which is also the Steam
 # Deck build), plays the first minute of each packaged build on its own
 # operating system, and keeps the folders SteamPipe uploads.
+#
+# Runs when asked for from the Actions tab, on a tag such as meridian-v1.0.0,
+# and on pull requests that touch the game or its desktop shell.
 on:
   workflow_dispatch:
   push:
     tags: ["meridian-v*"]
-    branches: ["claude/meridian-constants-qhth0j"]
   pull_request:
     paths:
       - "desktop/**"
