@@ -207,7 +207,7 @@ html.meridian.pad-mode :focus {
   .meridian-horizon {
     position: absolute;
     inset: 0 0 auto 0;
-    height: 15rem;
+    height: 19rem;
     overflow: hidden;
     pointer-events: none;
   }
@@ -216,7 +216,7 @@ html.meridian.pad-mode :focus {
     content: "";
     position: absolute;
     left: 50%;
-    top: 6.25rem;
+    top: 9.25rem;
     width: 260vw;
     height: 260vw;
     transform: translateX(-50%);

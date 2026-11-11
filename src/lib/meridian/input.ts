@@ -36,6 +36,11 @@ function candidates(): HTMLElement[] {
   });
 }
 
+/** Where a control is, for finding its neighbours. A slider counts as its whole track. */
+function place(el: HTMLElement): DOMRect {
+  return (el.closest<HTMLElement>("[data-nav-rect]") ?? el).getBoundingClientRect();
+}
+
 /** Put focus somewhere sensible when it is nowhere, or outside the open surface. */
 export function ensureFocus(): HTMLElement | null {
   const list = candidates();
@@ -61,14 +66,14 @@ export function moveFocus(dir: Dir): void {
     active.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true, cancelable: true }));
     return;
   }
-  const from = active.getBoundingClientRect();
+  const from = place(active);
   const cx = from.left + from.width / 2;
   const cy = from.top + from.height / 2;
   let best: HTMLElement | null = null;
   let bestScore = Infinity;
   for (const el of list) {
     if (el === active) continue;
-    const r = el.getBoundingClientRect();
+    const r = place(el);
     const dx = r.left + r.width / 2 - cx;
     const dy = r.top + r.height / 2 - cy;
     const along = dir === "up" ? -dy : dir === "down" ? dy : dir === "left" ? -dx : dx;

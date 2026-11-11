@@ -15,6 +15,12 @@ export default tseslint.config(
       ".nitro/**",
       "node_modules/**",
       "src/routeTree.gen.ts",
+      // Meridian: the content script is kept exactly as supplied, and the
+      // desktop shell's dependencies and build output are not ours to lint.
+      "src/lib/meridian/content.js",
+      "desktop/node_modules/**",
+      "desktop/app/**",
+      "desktop/dist/**",
     ],
   },
   js.configs.recommended,
@@ -41,6 +47,11 @@ export default tseslint.config(
       ],
       "@typescript-eslint/no-explicit-any": "off",
     },
+  },
+  // The desktop shell is CommonJS, which is what Electron loads directly.
+  {
+    files: ["desktop/**/*.cjs"],
+    rules: { "@typescript-eslint/no-require-imports": "off" },
   },
   // Disable rules that conflict with Prettier formatting.
   prettier,

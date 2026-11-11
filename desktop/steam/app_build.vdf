@@ -1,0 +1,32 @@
+// SteamPipe build script. Replace every 0000000 with your ids, then run:
+//   steamcmd +login <account> +run_app_build "<full path>/app_build.vdf" +quit
+"AppBuild"
+{
+	"AppID" "0000000"
+	"Desc" "Meridian 1.0.0"
+	"ContentRoot" "../dist/"
+	"BuildOutput" "../dist/steam-output/"
+	"Depots"
+	{
+		// Windows depot: the folder electron-builder writes for --win
+		"0000001"
+		{
+			"FileMapping"
+			{
+				"LocalPath" "win-unpacked/*"
+				"DepotPath" "."
+				"recursive" "1"
+			}
+		}
+		// Linux and Steam Deck depot: the folder electron-builder writes for --linux
+		"0000002"
+		{
+			"FileMapping"
+			{
+				"LocalPath" "linux-unpacked/*"
+				"DepotPath" "."
+				"recursive" "1"
+			}
+		}
+	}
+}

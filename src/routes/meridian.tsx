@@ -1,10 +1,12 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { MeridianApp } from "@/components/meridian/meridian-app";
+import { TITLE_LINK } from "@/components/meridian/title";
 
 export const Route = createFileRoute("/meridian")({
   head: () => ({
     meta: [
       { title: "Meridian" },
+      { name: "theme-color", content: "#000000" },
       {
         name: "description",
         content:
@@ -16,5 +18,13 @@ export const Route = createFileRoute("/meridian")({
 });
 
 function MeridianPage() {
-  return <MeridianApp />;
+  return (
+    <MeridianApp
+      leave={
+        <Link to="/" className={TITLE_LINK}>
+          Leave
+        </Link>
+      }
+    />
+  );
 }

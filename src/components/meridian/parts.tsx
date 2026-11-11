@@ -137,6 +137,16 @@ export function Sheet({
         <Dialog.Overlay className="fixed inset-0 z-40 bg-ink/80" />
         <Dialog.Content
           aria-describedby={blurb ? undefined : ""}
+          onOpenAutoFocus={(event) => {
+            /* land on the first thing worth pressing, not on the close button */
+            const first = (event.currentTarget as HTMLElement).querySelector<HTMLElement>(
+              "[data-autofocus]",
+            );
+            if (first) {
+              event.preventDefault();
+              first.focus();
+            }
+          }}
           className={cn(
             "sheet rise fixed inset-x-0 bottom-0 z-50 mx-auto flex w-full flex-col rounded-t-2xl bg-surface px-5 pt-5 shadow-pop sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 sm:rounded-2xl",
             wide ? "max-w-4xl" : "max-w-2xl",

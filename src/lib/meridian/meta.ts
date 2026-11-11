@@ -31,7 +31,13 @@ export interface Save {
   awarded: number | null;
 }
 
-export const DEFAULT_SETTINGS: Settings = { master: 0.8, music: 0.6, sfx: 0.8, text: 0, calm: false };
+export const DEFAULT_SETTINGS: Settings = {
+  master: 0.8,
+  music: 0.6,
+  sfx: 0.8,
+  text: 0,
+  calm: false,
+};
 export const NO_META: Meta = {
   points: 0,
   echoes: [],

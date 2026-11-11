@@ -33,7 +33,13 @@ function play(seed: number, echoes: string[] = []): State {
       const h = s.host;
       assert.ok(h, "a play phase always has an ear");
       const want =
-        h.strain > 60 ? "rest" : s.bars.bread < 30 ? "plenty" : s.bars.order < 30 ? "mercy" : "teach";
+        h.strain > 60
+          ? "rest"
+          : s.bars.bread < 30
+            ? "plenty"
+            : s.bars.order < 30
+              ? "mercy"
+              : "teach";
       const build = institutions(s).find((i) => i.ok);
       if (build && h.strain < 60) found(s, build.id);
       else if (whispers(s).some((w) => w.id === want && w.ok)) whisper(s, want);
@@ -52,7 +58,8 @@ test("every line of play reaches an ending the content defines", () => {
     assert.ok(view && s.end);
     const known = s.end.kind === "birth" ? C.BIRTH_ORDER : C.END_ORDER;
     assert.ok(known.includes(s.end.id), `unknown ending ${s.end.id}`);
-    for (const para of view.text) assert.doesNotMatch(para, /\{\w+\}/, "unfilled token in an ending");
+    for (const para of view.text)
+      assert.doesNotMatch(para, /\{\w+\}/, "unfilled token in an ending");
     seen.add(s.end.id);
   }
   assert.ok(seen.size >= 3, `only saw ${[...seen].join(", ")}`);

@@ -19,10 +19,19 @@ export const ACHIEVEMENTS: Achievement[] = [
   { id: "ACH_SAIL", n: "Edges of the Map", d: "Reach the Age of Sail." },
   { id: "ACH_FIRE", n: "Very Close", d: "Reach the Age of Fire." },
   { id: "ACH_CONVERGENCE", n: "Three Keys", d: "Reach the Convergence." },
-  { id: "ACH_LONG_SILENCE", n: "A Thousand Years of Nothing", d: "Endure a Silence of a thousand years or more." },
+  {
+    id: "ACH_LONG_SILENCE",
+    n: "A Thousand Years of Nothing",
+    d: "Endure a Silence of a thousand years or more.",
+  },
   { id: "ACH_SEAMLESS", n: "Already There", d: "Pass from one ear to the next with no Silence." },
   { id: "ACH_TRUTH", n: "What Next?", d: "Tell an ear what you are, and be believed." },
-  { id: "ACH_HEALER", n: "Sent For", d: "Tell an ear what you are, and be taken for a sickness.", hidden: true },
+  {
+    id: "ACH_HEALER",
+    n: "Sent For",
+    d: "Tell an ear what you are, and be taken for a sickness.",
+    hidden: true,
+  },
   { id: "ACH_BROKE", n: "Too Loud", d: "Break an ear with strain.", hidden: true },
   { id: "ACH_WAR", n: "Terms Dictated", d: "Win a war." },
   { id: "ACH_ACCORD", n: "Together or Not at All", d: "Found the Accord." },
@@ -50,9 +59,18 @@ export function satisfied(s: State | null, legacy: Legacy): string[] {
   const give = (id: string, when: boolean) => {
     if (when) out.push(id);
   };
-  give("ACH_ALL_WAKINGS", C.BIRTH_ORDER.every((id) => legacy.seen.includes(id)));
-  give("ACH_ALL_ENDS", C.END_ORDER.every((id) => legacy.seen.includes(id)));
-  give("ACH_ECHOES", C.ECHOES.every((e) => legacy.echoes.includes(e.id)));
+  give(
+    "ACH_ALL_WAKINGS",
+    C.BIRTH_ORDER.every((id) => legacy.seen.includes(id)),
+  );
+  give(
+    "ACH_ALL_ENDS",
+    C.END_ORDER.every((id) => legacy.seen.includes(id)),
+  );
+  give(
+    "ACH_ECHOES",
+    C.ECHOES.every((e) => legacy.echoes.includes(e.id)),
+  );
   if (!s) return out;
 
   give("ACH_FIRST_WORD", s.ears >= 1);

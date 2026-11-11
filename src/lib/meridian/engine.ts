@@ -55,7 +55,10 @@ export interface Line {
 
 export interface Silence {
   obit: string;
+  /** years on the calendar between one ear and the next */
   years: number;
+  /** how many of those years nobody was listening */
+  silent: number;
   lines: string[];
 }
 
@@ -243,7 +246,8 @@ export function rivalStrength(s: State, id: string): number {
 }
 
 export function relWord(r: RivalState): string {
-  if (r.war) return r.score >= 10 ? "At war, winning" : r.score <= -10 ? "At war, losing" : "At war";
+  if (r.war)
+    return r.score >= 10 ? "At war, winning" : r.score <= -10 ? "At war, losing" : "At war";
   if (r.rel >= 40) return "Allied";
   if (r.rel >= 15) return "Cordial";
   if (r.rel > -20) return "Cold";
@@ -302,11 +306,14 @@ function applyFx(s: State, fx: Fx, rivalId: string | null = null): void {
 }
 
 /* ---------------------------------------------------------------- people */
+/** `taken` are full names already in view, so no two people share either half. */
 function makeHost(s: State, fac: Fac, taken: string[] = []): Host {
   const g: Gender = rnd(s) < 0.5 ? "f" : "m";
-  const pool = C.NAMES[s.era][g].filter((n) => !taken.includes(n));
-  const first = pick(s, pool.length ? pool : C.NAMES[s.era][g]);
-  const name = `${first} ${pick(s, s.era <= 2 ? C.EPITHETS : C.SURNAMES)}`;
+  const firsts = C.NAMES[s.era][g].filter((n) => !taken.some((t) => t.startsWith(`${n} `)));
+  const first = pick(s, firsts.length ? firsts : C.NAMES[s.era][g]);
+  const all = s.era <= 2 ? C.EPITHETS : C.SURNAMES;
+  const lasts = all.filter((n) => !taken.some((t) => t.endsWith(` ${n}`)));
+  const name = `${first} ${pick(s, lasts.length ? lasts : all)}`;
   const breed = [...C.FAC_TRAITS[fac]];
   const a = breed.splice(Math.floor(rnd(s) * breed.length), 1)[0];
   const b = breed.splice(Math.floor(rnd(s) * breed.length), 1)[0];
@@ -345,9 +352,12 @@ function candidates(s: State): Host[] {
   const out: Host[] = [];
   const facs = [...C.FAC];
   while (out.length < count && facs.length) {
-    const i = weighted(s, facs.map((f) => s.fac[f].p + 6));
+    const i = weighted(
+      s,
+      facs.map((f) => s.fac[f].p + 6),
+    );
     const fac = facs.splice(i, 1)[0];
-    out.push(makeHost(s, fac, out.map((h) => h.first)));
+    out.push(makeHost(s, fac, [...out.map((h) => h.name), s.host?.name ?? ""]));
   }
   return out;
 }
@@ -469,7 +479,13 @@ export function chooseCradle(s: State, id: string): void {
     warm(s, { ...f, traits: [...f.traits], strain: 0, knows: false, truthTried: false, tenure: 0 }),
   );
   if (s.echoes.includes("second")) {
-    s.candidates.push(makeHost(s, "academy", s.candidates.map((h) => h.first)));
+    s.candidates.push(
+      makeHost(
+        s,
+        "academy",
+        s.candidates.map((h) => h.name),
+      ),
+    );
   }
   s.phase = "choose";
 }
@@ -531,9 +547,7 @@ export function whispers(s: State): WhisperView[] {
     if (w.rival && !r) continue;
     if (w.id === "heir" && s.heir) continue;
     if (w.id === "truth" && h.truthTried) continue;
-    const extra: Record<string, string> = r
-      ? { R: rivalName(r.id), RF: rivalDef(r.id).full }
-      : {};
+    const extra: Record<string, string> = r ? { R: rivalName(r.id), RF: rivalDef(r.id).full } : {};
     let why: string | null = null;
     if (s.used.includes(w.id)) why = "Already whispered this year";
     else if (s.signal < w.cost) why = "Not enough Signal";
@@ -568,7 +582,11 @@ function endWar(s: State, r: RivalState): void {
   } else if (r.score <= -10) {
     applyFx(s, { bread: -10, order: -5, "sword.m": -8 });
     r.rel = -20;
-    say(s, fmt(s, "The price is a province's harvest, every year, for a generation.", extra), "bad");
+    say(
+      s,
+      fmt(s, "The price is a province's harvest, every year, for a generation.", extra),
+      "bad",
+    );
   } else {
     r.rel = -5;
   }
@@ -623,7 +641,7 @@ export function whisper(s: State, id: string): void {
     r.rel = Math.min(r.rel, -60);
   }
   if (id === "heir") {
-    s.heir = makeHost(s, h.fac, [h.first]);
+    s.heir = makeHost(s, h.fac, [h.name]);
     extra.heir = s.heir.name;
   }
   if (id === "truth") {
@@ -769,7 +787,13 @@ function pickEvent(s: State): void {
     return true;
   });
   if (!pool.length) return;
-  const d = pool[weighted(s, pool.map((x) => (x.when === "war" ? 4 : x.when === "doubt" ? 2 : 1)))];
+  const d =
+    pool[
+      weighted(
+        s,
+        pool.map((x) => (x.when === "war" ? 4 : x.when === "doubt" ? 2 : 1)),
+      )
+    ];
   const from = d.when === "war" ? atWar : atPeace.length ? atPeace : s.rivals;
   s.event = { id: d.id, rival: pick(s, from).id };
   s.recent.push(d.id);
@@ -790,7 +814,10 @@ export function urge(s: State, index: number | null): void {
   }
   const extra = eventExtra(s);
   const alone = (skip: number) =>
-    weighted(s, d.o.map((c, i) => (i === skip ? 0 : leaning(h, c.tags))));
+    weighted(
+      s,
+      d.o.map((c, i) => (i === skip ? 0 : leaning(h, c.tags))),
+    );
 
   let chosen: number;
   let listened = false;
@@ -844,14 +871,26 @@ function wake(s: State): void {
   else finish(s, "birth", projected(s));
 }
 
-function silenceYears(s: State): number {
+/**
+ * The years between one ear and the next. A people ahead of the first history
+ * has the calendar catch up with them; one behind it waits only a short while.
+ * Listening houses and a marked heir do not shorten the years: they shorten
+ * how many of them are Silence.
+ */
+function passage(s: State, free: boolean): { years: number; silent: number } {
   const e = s.era;
   const gap = histYear(s) - s.year;
-  let years = gap > 0 ? Math.max(gap, C.MINGAP[e]) : C.MINSIL[e] * (0.5 + rnd(s));
-  years = Math.min(years, C.MAXSIL[e]) * (0.85 + rnd(s) * 0.3);
-  for (const id of s.inst) years *= C.INST_BY[id].listen ?? 1;
-  if (s.heir) years *= 0.25;
-  return years < C.MINSIL[e] ? 0 : Math.round(years);
+  const ahead = gap > C.MINGAP[e];
+  let years = ahead ? gap : C.MINGAP[e] * (0.6 + rnd(s) * 0.8);
+  let silent = Math.min(years, C.MAXSIL[e]) * (0.85 + rnd(s) * 0.15);
+  for (const id of s.inst) silent *= C.INST_BY[id].listen ?? 1;
+  if (s.heir) silent *= 0.25;
+  if (free || silent < C.MINSIL[e]) {
+    silent = 0;
+    /* nothing to catch up on and no one stopped listening: the next ear is simply there */
+    if (!ahead) years = 0;
+  }
+  return { years: Math.round(years), silent: Math.round(silent) };
 }
 
 function die(s: State, cause: string): void {
@@ -865,13 +904,13 @@ function die(s: State, cause: string): void {
     if (s.burned >= 3) return finish(s, "end", "closed");
   }
 
-  let years = 0;
-  if (s.echoes.includes("unbroken") && !s.unbrokenUsed) s.unbrokenUsed = true;
-  else years = silenceYears(s);
+  const free = s.echoes.includes("unbroken") && !s.unbrokenUsed;
+  if (free) s.unbrokenUsed = true;
+  const { years, silent } = passage(s, free);
 
   const lines: string[] = [];
-  if (years > 0) {
-    const steps = clamp(Math.round(years / C.SILSTEP[e]), 1, 4);
+  if (silent > 0) {
+    const steps = clamp(Math.round(silent / C.SILSTEP[e]), 1, 4);
     const kept: Record<Bar, boolean> = {
       bread: has(s, "granary"),
       order: has(s, "law"),
@@ -886,6 +925,8 @@ function die(s: State, cause: string): void {
     lines.push(kept[other] ? C.SIL[other].yes : C.SIL[other].no);
     if (has(s, "oracle")) lines.push(C.SIL.oracle);
     lines.push(pick(s, C.SIL.misc));
+  }
+  if (years > 0) {
     for (const f of C.FAC) {
       s.fac[f].m = 50 + (s.fac[f].m - 50) * 0.4;
       s.fac[f].p += (rnd(s) - 0.5) * 8;
@@ -897,7 +938,8 @@ function die(s: State, cause: string): void {
       r.rel = clamp(r.rel * 0.4 + (rnd(s) - 0.5) * 20, -100, 100);
     }
     s.year += years;
-    if (e === 6) s.race += years;
+    /* rivals gain only on the years nobody was listening */
+    if (e === 6) s.race += silent;
     if (s.bars.bread <= 0 || s.bars.order <= 0) {
       s.host = null;
       return finish(s, "end", "dark");
@@ -921,9 +963,9 @@ function die(s: State, cause: string): void {
     next = candidates(s);
   }
 
-  if (years === 0) s.stats.seamless++;
-  s.stats.longestSilence = Math.max(s.stats.longestSilence, years);
-  s.silence = { obit, years, lines };
+  if (silent === 0) s.stats.seamless++;
+  s.stats.longestSilence = Math.max(s.stats.longestSilence, silent);
+  s.silence = { obit, years, silent, lines };
   s.candidates = next;
   s.heir = null;
   s.host = null;
@@ -935,7 +977,8 @@ function die(s: State, cause: string): void {
 function mortality(s: State, h: Host): string | null {
   const span = C.ERAS[s.era].span;
   const a = h.age;
-  let yearly = a < 40 ? 0.006 : a < 50 ? 0.015 : a < 60 ? 0.035 : a < 70 ? 0.08 : a < 80 ? 0.16 : 0.3;
+  let yearly =
+    a < 40 ? 0.006 : a < 50 ? 0.015 : a < 60 ? 0.035 : a < 70 ? 0.08 : a < 80 ? 0.16 : 0.3;
   for (const id of h.traits) yearly *= C.TRAITS[id].mort ?? 1;
   for (const id of s.inst) yearly *= C.INST_BY[id].mort ?? 1;
   if (rnd(s) < 1 - Math.pow(1 - yearly, span)) return a >= 62 ? "age" : "ill";
@@ -943,7 +986,8 @@ function mortality(s: State, h: Host): string | null {
   const atWar = s.rivals.some((r) => r.war);
   const fights = h.traits.includes("bold") || h.traits.includes("warrior") || h.fac === "sword";
   if (atWar && rnd(s) < (fights ? 0.05 : 0.01)) return "battle";
-  if (s.bars.order < 35 && (s.fac.palace.m < 20 || s.fac.sword.m < 20) && rnd(s) < 0.08) return "coup";
+  if (s.bars.order < 35 && (s.fac.palace.m < 20 || s.fac.sword.m < 20) && rnd(s) < 0.08)
+    return "coup";
   if (s.bars.order < 30 && s.fac.field.m < 15 && rnd(s) < 0.08) return "mob";
   const elected = s.era >= 5 || has(s, "franchise") || (s.era >= 4 && has(s, "assembly"));
   if (elected && h.tenure >= 10 && rnd(s) < 0.2) return "term";
@@ -1062,7 +1106,8 @@ export function advance(s: State): void {
   s.unruly = s.bars.order <= 3 ? s.unruly + 1 : 0;
   if (s.hungry >= 3) return finish(s, "end", "hunger");
   if (s.unruly >= 3) return finish(s, "end", "unravel");
-  if (s.hungry === 1) say(s, "The harvest is empty. Two more like it and there is no one left to plant.", "bad");
+  if (s.hungry === 1)
+    say(s, "The harvest is empty. Two more like it and there is no one left to plant.", "bad");
   if (s.unruly === 1) say(s, "The law has stopped arriving in the provinces.", "bad");
 
   if (s.prog >= era.need) {
@@ -1099,7 +1144,14 @@ export function endView(s: State): EndView | null {
   if (end.kind === "birth") {
     const b = C.BIRTHS[end.id];
     const tail = end.high || !b.low ? b.high : b.low;
-    return { kind: "birth", id: end.id, name: b.n, line: b.line, text: [b.text, tail], coda: b.coda ?? null };
+    return {
+      kind: "birth",
+      id: end.id,
+      name: b.n,
+      line: b.line,
+      text: [b.text, tail],
+      coda: b.coda ?? null,
+    };
   }
   const e = C.ENDS[end.id];
   const rid = end.rival ?? s.rivals[0]?.id ?? C.RIVALS[0].id;

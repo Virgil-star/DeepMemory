@@ -18,7 +18,7 @@ import {
 import { Chip, Label, Meter, Odds, Sheet } from "./parts";
 
 const TAB =
-  "meridian-label min-h-11 flex-1 border-b-2 border-transparent px-1 text-muted data-[state=active]:border-paper data-[state=active]:text-paper";
+  "min-h-11 flex-1 border-b-2 border-transparent px-1 font-display text-xs font-semibold uppercase tracking-wider text-muted data-[state=active]:border-paper data-[state=active]:text-paper";
 
 function moodWord(m: number): string {
   if (m >= 70) return "Content";
