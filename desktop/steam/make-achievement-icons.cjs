@@ -1,6 +1,7 @@
 "use strict";
-/* Draws the Steam achievement icons: one 256x256 JPG for earned and one for
-   not yet earned, per achievement. The glyphs are Lucide icons (ISC licence),
+/* Draws the Steam achievement icons: one 256x256 PNG for earned and one for
+   not yet earned, per achievement, named the way Steamworks' bulk upload
+   matches them: <API name>_ACHIEVED.png and <API name>_UNACHIEVED.png. The glyphs are Lucide icons (ISC licence),
    the same set the game uses, set over the limb of the world.
 
    Run from the repository root, with Playwright available:
@@ -63,9 +64,7 @@ function svg(node, earned) {
         `<html><body style="margin:0;background:#000">${svg(mod.__iconNode, earned)}</body></html>`,
       );
       await page.screenshot({
-        path: path.join(out, `${id}${earned ? "" : "_locked"}.jpg`),
-        type: "jpeg",
-        quality: 92,
+        path: path.join(out, `${id}_${earned ? "ACHIEVED" : "UNACHIEVED"}.png`),
         clip: { x: 0, y: 0, width: 256, height: 256 },
       });
     }

@@ -6,17 +6,17 @@ this build run the same code; only where saves live differs.
 
 ## What is here
 
-| File                   | What it does                                                                               |
-| ---------------------- | ------------------------------------------------------------------------------------------ |
-| `main.cjs`             | The window: loads the bundled game from disk, remembers full screen, quits cleanly.        |
-| `preload.cjs`          | The only bridge to the page: read/write a save, unlock an achievement, full screen, quit.  |
-| `storage.cjs`          | Saves as JSON files, written atomically, with the previous copy kept as a fallback.        |
-| `steam.cjs`            | Steam achievements and overlay through `steamworks.js`. Does nothing when Steam is absent. |
-| `electron-builder.yml` | Packaging. Every target is an unpacked folder, which is what SteamPipe uploads.            |
-| `smoke.cjs`            | Launches a build and plays its first minute, then relaunches to check the save held.       |
-| `steam/`               | The achievements to create, and the SteamPipe upload script.                               |
-| `store/`               | Capsule art cut from the key art, 1920x1080 screenshots, and a store page draft.           |
-| `build/icon.png`       | The application icon.                                                                      |
+| File                   | What it does                                                                                                          |
+| ---------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `main.cjs`             | The window: loads the bundled game from disk, remembers full screen, quits cleanly.                                   |
+| `preload.cjs`          | The only bridge to the page: read/write a save, unlock an achievement, full screen, quit.                             |
+| `storage.cjs`          | Saves as JSON files, written atomically, with the previous copy kept as a fallback.                                   |
+| `steam.cjs`            | Steam achievements and overlay through `steamworks.js`. Does nothing when Steam is absent.                            |
+| `electron-builder.yml` | Packaging. Every target is an unpacked folder, which is what SteamPipe uploads.                                       |
+| `smoke.cjs`            | Launches a build and plays its first minute, then relaunches to check the save held.                                  |
+| `steam/`               | The release checklist, achievement import files and icons, the content survey draft, and the SteamPipe upload script. |
+| `store/`               | The abstract, store text, capsule art cut from the key art, gameplay screenshots, the trailer and icons.              |
+| `build/icon.png`       | The application icon.                                                                                                 |
 
 `app/` (the bundled game) and `dist/` (packaged builds) are generated and not
 committed.

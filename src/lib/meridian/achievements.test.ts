@@ -106,18 +106,37 @@ test("the Steamworks table lists exactly the achievements the game can send", as
   );
 });
 
-test("the Steam localisation file and icons cover every achievement, in order", async () => {
-  const { existsSync, readFileSync } = await import("node:fs");
+test("the Steam import files and icons cover every achievement, in order", async () => {
+  const { existsSync, readFileSync, readdirSync } = await import("node:fs");
   const steam = new URL("../../../desktop/steam/", import.meta.url);
-  const vdf = readFileSync(new URL("achievements_english.vdf", steam), "utf8");
+  const lines = (name: string) =>
+    readFileSync(new URL(name, steam), "utf8").trim().split(/\r?\n/).slice(1);
   const glyphs = JSON.parse(readFileSync(new URL("achievement-icons.json", steam), "utf8"));
+
+  const definitions = lines("achievements-definitions.csv").map((row) => row.split(","));
+  assert.deepEqual(
+    definitions.map((row) => row[0]),
+    ACHIEVEMENTS.map((a) => a.id),
+  );
   ACHIEVEMENTS.forEach((a, i) => {
-    assert.ok(vdf.includes(`"NEW_ACHIEVEMENT_1_${i}_NAME"\t"${a.n}"`), `${a.id} name`);
-    assert.ok(vdf.includes(`"NEW_ACHIEVEMENT_1_${i}_DESC"\t"${a.d}"`), `${a.id} description`);
+    assert.equal(definitions[i][2], "Client");
+    assert.equal(definitions[i][3], a.hidden ? "true" : "false", `${a.id} spoiler`);
+  });
+
+  const text = lines("achievements-localization.csv");
+  assert.equal(text.length, ACHIEVEMENTS.length * 2);
+  const quoted = (value: string) => (/[",]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value);
+  ACHIEVEMENTS.forEach((a, i) => {
+    assert.equal(text[i * 2], `${a.id},name,${quoted(a.n)}`);
+    assert.equal(text[i * 2 + 1], `${a.id},description,${quoted(a.d)}`);
     assert.ok(glyphs[a.id], `${a.id} has no icon glyph`);
-    for (const suffix of ["", "_locked"]) {
-      assert.ok(existsSync(new URL(`achievement-icons/${a.id}${suffix}.jpg`, steam)), `${a.id}${suffix}.jpg`);
+    for (const state of ["ACHIEVED", "UNACHIEVED"]) {
+      assert.ok(
+        existsSync(new URL(`achievement-icons/${a.id}_${state}.png`, steam)),
+        `${a.id}_${state}.png`,
+      );
     }
   });
   assert.equal(Object.keys(glyphs).length, ACHIEVEMENTS.length);
+  assert.equal(readdirSync(new URL("achievement-icons/", steam)).length, ACHIEVEMENTS.length * 2);
 });

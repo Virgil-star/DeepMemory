@@ -68,7 +68,6 @@ def portrait(w, h):
 
 jobs = {
     "header_capsule_920x430.jpg": cover(horizon, 920, 430, (0.5, 0.5)),
-    "small_capsule_462x174.jpg": cover(horizon, 462, 174, (0.5, 0.5)),
     "main_capsule_1232x706.jpg": cover(horizon, 1232, 706, (0.5, 0.5)),
     "library_header_920x430.jpg": cover(horizon, 920, 430, (0.5, 0.5)),
     "vertical_capsule_748x896.jpg": portrait(748, 896),
@@ -79,8 +78,29 @@ for name, image in jobs.items():
     image.save(OUT / name, quality=92)
     print(name, image.size)
 
+# Small capsule: Steam shrinks it to 120x45, and asks that the logo nearly fill
+# it and stay legible. The fine lettering of the key art does not survive that,
+# so this one sets the bolder wordmark over the planet's limb, dimmed.
+small = cover(planet.crop((700, 60, 1792, 471)), 462, 174, (0.5, 0.3)).point(lambda v: int(v * 0.6))
+mark = wordmark()
+mw = round(462 * 0.9)
+mark = mark.resize((mw, round(mark.height * mw / mark.width)), Image.LANCZOS)
+lettering = Image.new("RGB", small.size, (0, 0, 0))
+lettering.paste(Image.merge("RGB", (mark, mark, mark)), ((462 - mw) // 2, (174 - mark.height) // 2))
+small = ImageChops.lighter(small, lettering)
+small.save(OUT / "small_capsule_462x174.jpg", quality=94)
+print("small_capsule_462x174.jpg", small.size)
+
 # Steam asks for the library hero as a PNG, with nothing written on it
-cover(planet, 3840, 1240, (0.5, 0.35)).save(OUT / "library_hero_3840x1240.png", optimize=True)
+# and the subject near the centre, which is the part that survives when the
+# Steam window is narrow
+hero = Image.new("RGB", (3840, 1240), (0, 0, 0))
+globe = planet.crop((860, 40, 1720, 590))
+globe = globe.resize((round(globe.width * 2.6), round(globe.height * 2.6)), Image.LANCZOS)
+globe = feather(globe, 150)
+layer = Image.new("RGB", hero.size, (0, 0, 0))
+layer.paste(globe, ((3840 - globe.width) // 2 + 80, 40))
+ImageChops.lighter(hero, layer).save(OUT / "library_hero_3840x1240.png", optimize=True)
 print("library_hero_3840x1240.png", (3840, 1240))
 
 # library logo: the lettering in white on a transparent field
