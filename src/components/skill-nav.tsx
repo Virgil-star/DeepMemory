@@ -4,6 +4,7 @@ const ITEMS = [
   { to: "/", label: "Sprint", id: "sprint" },
   { to: "/architect", label: "Architect", id: "architect" },
   { to: "/ledger", label: "Ledger", id: "ledger" },
+  { to: "/meridian", label: "Meridian", id: "meridian" },
 ] as const;
 
 export function SkillNav({ current }: { current: (typeof ITEMS)[number]["id"] }) {

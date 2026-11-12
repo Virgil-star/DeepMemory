@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ArchitectRouteImport } from './routes/architect'
 import { Route as LedgerRouteImport } from './routes/ledger'
+import { Route as MeridianRouteImport } from './routes/meridian'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const LedgerRoute = LedgerRouteImport.update({
   path: '/ledger',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MeridianRoute = MeridianRouteImport.update({
+  id: '/meridian',
+  path: '/meridian',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/architect': typeof ArchitectRoute
   '/ledger': typeof LedgerRoute
+  '/meridian': typeof MeridianRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/architect': typeof ArchitectRoute
   '/ledger': typeof LedgerRoute
+  '/meridian': typeof MeridianRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/architect': typeof ArchitectRoute
   '/ledger': typeof LedgerRoute
+  '/meridian': typeof MeridianRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/architect' | '/ledger'
+  fullPaths: '/' | '/architect' | '/ledger' | '/meridian'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/architect' | '/ledger'
-  id: '__root__' | '/' | '/architect' | '/ledger'
+  to: '/' | '/architect' | '/ledger' | '/meridian'
+  id: '__root__' | '/' | '/architect' | '/ledger' | '/meridian'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ArchitectRoute: typeof ArchitectRoute
   LedgerRoute: typeof LedgerRoute
+  MeridianRoute: typeof MeridianRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LedgerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/meridian': {
+      id: '/meridian'
+      path: '/meridian'
+      fullPath: '/meridian'
+      preLoaderRoute: typeof MeridianRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ArchitectRoute: ArchitectRoute,
   LedgerRoute: LedgerRoute,
+  MeridianRoute: MeridianRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

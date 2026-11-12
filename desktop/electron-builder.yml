@@ -1,0 +1,36 @@
+# Meridian desktop builds. Steam ships loose files, so every target is an
+# unpacked folder: upload dist/<platform>-unpacked as that platform's depot.
+appId: com.meridian.game
+productName: Meridian
+copyright: Copyright © 2026
+directories:
+  output: dist
+  buildResources: build
+files:
+  - main.cjs
+  - preload.cjs
+  - storage.cjs
+  - steam.cjs
+  - app/**/*
+  - build/icon.png
+  - package.json
+# steam_appid.txt is for development only and is deliberately not shipped:
+# a build launched by Steam is told its app id by the client.
+asar: true
+# Steam delivers updates; the game never looks for its own.
+publish: null
+asarUnpack:
+  - "**/*.node"
+  - "**/steamworks.js/dist/**"
+win:
+  target: [dir]
+  icon: build/icon.png
+linux:
+  target: [dir]
+  executableName: meridian
+  category: Game
+  icon: build/icon.png
+mac:
+  target: [dir]
+  category: public.app-category.strategy-games
+  icon: build/icon.png

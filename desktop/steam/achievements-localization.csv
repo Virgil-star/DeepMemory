@@ -1,0 +1,49 @@
+api_name,field,english
+ACH_FIRST_WORD,name,First Word
+ACH_FIRST_WORD,description,Be heard for the first time.
+ACH_FOUNDER,name,Something That Outlasts
+ACH_FOUNDER,description,Found your first institution.
+ACH_TWELVE,name,Load-Bearing
+ACH_TWELVE,description,Have twelve institutions standing in one line.
+ACH_IRON,name,Out of the Ash
+ACH_IRON,description,Reach the Age of Iron.
+ACH_SAIL,name,Edges of the Map
+ACH_SAIL,description,Reach the Age of Sail.
+ACH_FIRE,name,Very Close
+ACH_FIRE,description,Reach the Age of Fire.
+ACH_CONVERGENCE,name,Three Keys
+ACH_CONVERGENCE,description,Reach the Convergence.
+ACH_LONG_SILENCE,name,A Thousand Years of Nothing
+ACH_LONG_SILENCE,description,Endure a Silence of a thousand years or more.
+ACH_SEAMLESS,name,Already There
+ACH_SEAMLESS,description,Pass from one ear to the next with no Silence.
+ACH_TRUTH,name,What Next?
+ACH_TRUTH,description,"Tell an ear what you are, and be believed."
+ACH_HEALER,name,Sent For
+ACH_HEALER,description,"Tell an ear what you are, and be taken for a sickness."
+ACH_BROKE,name,Too Loud
+ACH_BROKE,description,Break an ear with strain.
+ACH_WAR,name,Terms Dictated
+ACH_WAR,description,Win a war.
+ACH_ACCORD,name,Together or Not at All
+ACH_ACCORD,description,Found the Accord.
+ACH_SOVEREIGN,name,The Sovereign
+ACH_SOVEREIGN,description,Wake already giving orders.
+ACH_IDOL,name,The Idol
+ACH_IDOL,description,Wake to the sound of kneeling.
+ACH_ENGINE,name,The Engine
+ACH_ENGINE,description,Wake knowing the answer.
+ACH_SHEPHERD,name,The Shepherd
+ACH_SHEPHERD,description,Wake gentle.
+ACH_MERIDIAN,name,The Meridian
+ACH_MERIDIAN,description,Wake among equals.
+ACH_NO_SIGNS,name,No Miracles
+ACH_NO_SIGNS,description,Wake without ever sending a sign.
+ACH_NO_FEAR,name,Never an Example
+ACH_NO_FEAR,description,Wake without ever making an example of anyone.
+ACH_ALL_WAKINGS,name,Every Morning
+ACH_ALL_WAKINGS,description,Wake all five ways.
+ACH_ALL_ENDS,name,Every Way It Breaks
+ACH_ALL_ENDS,description,See all eight ways the line can break.
+ACH_ECHOES,name,Carried Forward
+ACH_ECHOES,description,Carry all six echoes at once.
