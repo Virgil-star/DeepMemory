@@ -1,0 +1,86 @@
+{
+ "decision": "EXTEND (11-14 wins; same rule, bar not lowered)",
+ "unresolved": [],
+ "n_pairs": 20,
+ "wins_arm3": 12,
+ "non_wins": 8,
+ "ties_or_none": 3,
+ "p_one_sided_exact_H0_0.5": 0.251722,
+ "win_share_wilson95": [
+  0.3866,
+  0.7812
+ ],
+ "win_share_clopper_pearson95": [
+  0.3605,
+  0.8088
+ ],
+ "untraceable_findings": {
+  "arm2": 0,
+  "arm3": 0
+ },
+ "confirmed_fabricated_findings": {
+  "arm2": 0,
+  "arm3": 0
+ },
+ "accuracy_supported_by_both_raters": {
+  "arm2": {
+   "supported": 34,
+   "findings": 60,
+   "rate": 0.5667,
+   "wilson95": [
+    0.441,
+    0.6843
+   ]
+  },
+  "arm3": {
+   "supported": 47,
+   "findings": 60,
+   "rate": 0.7833,
+   "wilson95": [
+    0.6638,
+    0.8688
+   ]
+  }
+ },
+ "recall_matched_by_both_raters": {
+  "arm2": {
+   "matched": 45,
+   "total": 80,
+   "rate": 0.5625,
+   "wilson95": [
+    0.4534,
+    0.6659
+   ]
+  },
+  "arm3": {
+   "matched": 47,
+   "total": 80,
+   "rate": 0.5875,
+   "wilson95": [
+    0.478,
+    0.6889
+   ]
+  }
+ },
+ "cost_median_usd": {
+  "arm2": 0.3999,
+  "arm3": 0.60205,
+  "ratio": 1.5055,
+  "cost_ok_<=2x": true
+ },
+ "kappa_preference_R1_R2": 0.8305,
+ "kappa_preference_boot95": [
+  0.5516,
+  1.0
+ ],
+ "kappa_supported_R1_R2": 0.682,
+ "kappa_supported_boot95": [
+  0.5254,
+  0.8182
+ ],
+ "notes": [
+  "Accuracy/recall 'no worse than Arm 2' has no margin (C6, OPEN) \u2014 reported, not used in decision.",
+  "Finding-level Wilson CIs ignore clustering; descriptive only.",
+  "Kappa here is on the main set; v2's kappa gate uses the 10 calibration pairs."
+ ]
+}

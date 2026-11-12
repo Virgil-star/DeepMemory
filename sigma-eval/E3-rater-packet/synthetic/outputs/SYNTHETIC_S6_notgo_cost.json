@@ -1,0 +1,86 @@
+{
+ "decision": "NOT-GO / NOT-STOP: wins >= 15 but untraceable or cost condition failed \u2014 rule silent, OPEN CONFLICT for James",
+ "unresolved": [],
+ "n_pairs": 20,
+ "wins_arm3": 16,
+ "non_wins": 4,
+ "ties_or_none": 1,
+ "p_one_sided_exact_H0_0.5": 0.005909,
+ "win_share_wilson95": [
+  0.584,
+  0.9193
+ ],
+ "win_share_clopper_pearson95": [
+  0.5634,
+  0.9427
+ ],
+ "untraceable_findings": {
+  "arm2": 0,
+  "arm3": 0
+ },
+ "confirmed_fabricated_findings": {
+  "arm2": 0,
+  "arm3": 0
+ },
+ "accuracy_supported_by_both_raters": {
+  "arm2": {
+   "supported": 36,
+   "findings": 60,
+   "rate": 0.6,
+   "wilson95": [
+    0.4737,
+    0.7143
+   ]
+  },
+  "arm3": {
+   "supported": 43,
+   "findings": 60,
+   "rate": 0.7167,
+   "wilson95": [
+    0.5923,
+    0.8149
+   ]
+  }
+ },
+ "recall_matched_by_both_raters": {
+  "arm2": {
+   "matched": 31,
+   "total": 80,
+   "rate": 0.3875,
+   "wilson95": [
+    0.2882,
+    0.4971
+   ]
+  },
+  "arm3": {
+   "matched": 41,
+   "total": 80,
+   "rate": 0.5125,
+   "wilson95": [
+    0.4049,
+    0.6189
+   ]
+  }
+ },
+ "cost_median_usd": {
+  "arm2": 0.40795,
+  "arm3": 1.1061,
+  "ratio": 2.7114,
+  "cost_ok_<=2x": false
+ },
+ "kappa_preference_R1_R2": 0.75,
+ "kappa_preference_boot95": [
+  0.3421,
+  1.0
+ ],
+ "kappa_supported_R1_R2": 0.594,
+ "kappa_supported_boot95": [
+  0.4177,
+  0.7503
+ ],
+ "notes": [
+  "Accuracy/recall 'no worse than Arm 2' has no margin (C6, OPEN) \u2014 reported, not used in decision.",
+  "Finding-level Wilson CIs ignore clustering; descriptive only.",
+  "Kappa here is on the main set; v2's kappa gate uses the 10 calibration pairs."
+ ]
+}

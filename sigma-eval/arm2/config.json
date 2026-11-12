@@ -1,0 +1,13 @@
+{
+  "endpoint": "https://generativelanguage.googleapis.com/v1beta/interactions",
+  "auth_header": "x-goog-api-key (key read from env GEMINI_API_KEY at run time; never written to disk or logs)",
+  "model": "gemini-4-argon",
+  "store": false,
+  "generation_config": {"thinking_level": "medium", "max_output_tokens": 65536},
+  "tools": [],
+  "background": false,
+  "runs_per_item": 1,
+  "max_retries_on_api_error": 2,
+  "tier_required": "paid (no-training); free tier forbidden",
+  "james_items": ["thinking_level (medium vs pilot-selected)", "vendor shortlist approval", "cost price basis"]
+}

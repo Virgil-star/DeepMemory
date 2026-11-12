@@ -1,0 +1,6 @@
+9 True True [np.float64(0.2306), np.float64(0.6847)] [0.2306, 0.6847]
+10 True True [np.float64(0.272), np.float64(0.728)] [0.272, 0.728]
+12 True True [np.float64(0.3605), np.float64(0.8088)] [0.3605, 0.8088]
+15 True True [np.float64(0.509), np.float64(0.9134)] [0.509, 0.9134]
+17 True True [np.float64(0.6211), np.float64(0.9679)] [0.6211, 0.9679]
+kappa textbook (expect 0.4): 0.4

@@ -1,0 +1,7 @@
+TEMPLATE:
+{{TEMPLATE}}
+
+EXERCISE RECORD (page sections are labelled §pN; every line is numbered LNNNN):
+{{RECORD}}
+
+Task: Produce the complete AAR/IP for this exercise, following the system instructions and the TEMPLATE. Every finding must cite the EXERCISE RECORD by line or section.

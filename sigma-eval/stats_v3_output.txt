@@ -1,0 +1,31 @@
+== A. Locked rule on n=20: P(go: X>=15), P(stop: X<=10), P(inconclusive 11-14) ==
+p=0.50  power/P(go)=0.0207  P(stop)=0.5881  P(inconcl)=0.3912
+p=0.55  power/P(go)=0.0553  P(stop)=0.4086  P(inconcl)=0.5360
+p=0.60  power/P(go)=0.1256  P(stop)=0.2447  P(inconcl)=0.6297
+p=0.65  power/P(go)=0.2454  P(stop)=0.1218  P(inconcl)=0.6328
+p=0.70  power/P(go)=0.4164  P(stop)=0.0480  P(inconcl)=0.5357
+p=0.75  power/P(go)=0.6172  P(stop)=0.0139  P(inconcl)=0.3690
+p=0.80  power/P(go)=0.8042  P(stop)=0.0026  P(inconcl)=0.1932
+(preference criterion only; the zero-untraceable, fabrication, cost and non-inferiority conditions can only lower P(go))
+
+== B. Smallest n (one-sided alpha<=0.05 exact) with power>=0.80 ==
+p1=0.65: n=69, go at >=42/69, alpha=0.0456, power=0.8021
+p1=0.70: n=37, go at >=24/37, alpha=0.0494, power=0.8071
+p1=0.75: n=23, go at >=16/23, alpha=0.0466, power=0.8037
+p1=0.80: n=18, go at >=13/18, alpha=0.0481, power=0.8671
+
+== C. Symmetric week-1 rule on pooled Arm 2 findings (g = traceable AND supported) ==
+RE-SCOPE if good>=K_hi(N): K_hi = smallest k with k/N>=0.80 and exact one-sided 95% lower bound >0.50
+BUILD-CONFIRM if good<=N-K_hi(N) (mirror image: share<=0.20 and upper bound <0.50); else NO EARLY DECISION
+N=  5: re-scope if good>=5 (share 1.00, LB 0.549); build-confirm if good<=0 (share 0.00, UB 0.451); P(re-scope|true g=.5)=0.0312 = P(build-confirm|.5)=0.0312
+N=  6: re-scope if good>=6 (share 1.00, LB 0.607); build-confirm if good<=0 (share 0.00, UB 0.393); P(re-scope|true g=.5)=0.0156 = P(build-confirm|.5)=0.0156
+N=  8: re-scope if good>=7 (share 0.88, LB 0.529); build-confirm if good<=1 (share 0.12, UB 0.471); P(re-scope|true g=.5)=0.0352 = P(build-confirm|.5)=0.0352
+N= 10: re-scope if good>=9 (share 0.90, LB 0.606); build-confirm if good<=1 (share 0.10, UB 0.394); P(re-scope|true g=.5)=0.0107 = P(build-confirm|.5)=0.0107
+N= 12: re-scope if good>=10 (share 0.83, LB 0.562); build-confirm if good<=2 (share 0.17, UB 0.438); P(re-scope|true g=.5)=0.0193 = P(build-confirm|.5)=0.0193
+N= 15: re-scope if good>=12 (share 0.80, LB 0.560); build-confirm if good<=3 (share 0.20, UB 0.440); P(re-scope|true g=.5)=0.0176 = P(build-confirm|.5)=0.0176
+N= 20: re-scope if good>=16 (share 0.80, LB 0.599); build-confirm if good<=4 (share 0.20, UB 0.401); P(re-scope|true g=.5)=0.0059 = P(build-confirm|.5)=0.0059
+N= 25: re-scope if good>=20 (share 0.80, LB 0.625); build-confirm if good<=5 (share 0.20, UB 0.375); P(re-scope|true g=.5)=0.0020 = P(build-confirm|.5)=0.0020
+N= 30: re-scope if good>=24 (share 0.80, LB 0.643); build-confirm if good<=6 (share 0.20, UB 0.357); P(re-scope|true g=.5)=0.0007 = P(build-confirm|.5)=0.0007
+N= 40: re-scope if good>=32 (share 0.80, LB 0.668); build-confirm if good<=8 (share 0.20, UB 0.332); P(re-scope|true g=.5)=0.0001 = P(build-confirm|.5)=0.0001
+N= 50: re-scope if good>=40 (share 0.80, LB 0.684); build-confirm if good<=10 (share 0.20, UB 0.316); P(re-scope|true g=.5)=0.0000 = P(build-confirm|.5)=0.0000
+N= 60: re-scope if good>=48 (share 0.80, LB 0.696); build-confirm if good<=12 (share 0.20, UB 0.304); P(re-scope|true g=.5)=0.0000 = P(build-confirm|.5)=0.0000

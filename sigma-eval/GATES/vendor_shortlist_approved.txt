@@ -1,0 +1,9 @@
+VENDOR APPROVAL GATE (Arm 2)
+Approved vendor: Google Gemini API, PAID tier only, for all Arm 2 baseline runs.
+Approver: James A. MacGowan. Quoted words: "Approve a paid Gemini API account for all baseline runs" (26 Oct 2026).
+Source: relayed to Sigma Eval by CSO (Casey Seville O'Neil) at 22:10 UTC on 26 Oct 2026; not given to Sigma Eval directly.
+Limits that still apply: paid tier only; C0 total spend under $1k; only public records with no personal data go in; store:false; no search grounding.
+Status: API account and key NOT yet created. No model calls have been made.
+Gate written by Sigma Eval (bot) on 2026-10-26.
+
+UPDATE 2026-10-26 22:14 UTC: GEMINI_API_KEY exists in the box env, but the API reports it as FREE TIER (limit 0 requests/day for gemini-4-argon). The paid-tier condition is NOT met. Runs are blocked until James confirms a paid key with billing enabled. The runner must make a pre-flight tier check (a tiny no-record call that aborts on any "Free Tier" reply) before any record is sent.
