@@ -1,10 +1,5 @@
+node_modules/
+.project_id
+.github_repo
 .env
-*.key
-**/sealed/
-src/
-interim-set/raw/
-interim-set/items/
-interim-set/ocr/
-__pycache__/
-*.pdf
-*.bin
+.env.*
